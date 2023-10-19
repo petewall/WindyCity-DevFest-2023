@@ -1,0 +1,23 @@
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: 	http://prometheus-server.prometheus.svc:80
+        isDefault: true
+        basicAuth: true
+        basicAuthUser: promuser
+        secureJsonData:
+          basicAuthPassword: prometheuspassword
+
+      - name: Loki
+        type: loki
+        url: 	http://loki-gateway.loki.svc:80
+        basicAuth: true
+        basicAuthUser: loki
+        jsonData:
+          httpHeaderName1: X-Scope-OrgID
+        secureJsonData:
+          basicAuthPassword: lokipassword
+          httpHeaderValue1: "1"

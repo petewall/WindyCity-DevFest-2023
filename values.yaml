@@ -1,0 +1,22 @@
+cluster:
+  name: windycity_devfest_demo
+
+externalServices:
+  prometheus:
+    host: http://prometheus-server.prometheus.svc:80
+    basicAuth:
+      username: promuser
+      password: prometheuspassword
+    queryEndpoint: /api/v1/query
+    writeEndpoint: /api/v1/write
+  loki:
+    host: http://loki.loki.svc:3100
+    tenantId: 1
+    basicAuth:
+      username: loki
+      password: lokipassword
+
+opencost:
+  prometheus:
+    external:
+      url: http://prometheus-server.prometheus.svc:80/api/v1
