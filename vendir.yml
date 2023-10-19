@@ -1,9 +1,0 @@
-apiVersion: vendir.k14s.io/v1alpha1
-kind: Config
-directories:
-- path: kubernetes-mixin
-  contents:
-  - path: .
-    git:
-      url: https://github.com/grafana/kubernetes-mixin
-      ref: origin/master
