@@ -3,14 +3,14 @@ cluster:
 
 externalServices:
   prometheus:
-    host: http://prometheus-server.prometheus.svc:80
+    host: http://prometheus-server.monitoring.svc:80
     basicAuth:
       username: promuser
       password: prometheuspassword
     queryEndpoint: /api/v1/query
     writeEndpoint: /api/v1/write
   loki:
-    host: http://loki.loki.svc:3100
+    host: http://loki.monitoring.svc:3100
     tenantId: 1
     basicAuth:
       username: loki
@@ -19,4 +19,38 @@ externalServices:
 opencost:
   prometheus:
     external:
-      url: http://prometheus-server.prometheus.svc:80/api/v1
+      url: http://prometheus-server.monitoring.svc:80/api/v1
+
+extraConfig: |
+  discovery.relabel "apiserver" {
+    targets = discovery.kubernetes.services.targets
+    rule {
+      source_labels = ["__meta_kubernetes_namespace"]
+      regex = "default"
+      action = "keep"
+    }
+    rule {
+      source_labels = ["__meta_kubernetes_service_name"]
+      regex = "kubernetes"
+      action = "keep"
+    }
+    rule {
+      source_labels = ["__meta_kubernetes_service_port_name"]
+      regex = "https"
+      action = "keep"
+    }
+  }
+
+  prometheus.scrape "apiserver" {
+    job_name   = "integrations/kubernetes/apiserver"
+    targets    = discovery.relabel.apiserver.output
+    scheme     = "https"
+    bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
+    tls_config {
+      insecure_skip_verify = true
+    }
+    clustering {
+      enabled = true
+    }
+    forward_to = [prometheus.remote_write.grafana_cloud_prometheus.receiver]
+  }

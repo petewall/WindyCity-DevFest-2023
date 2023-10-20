@@ -1,7 +1,7 @@
-setup:
+create-cluster:
 	kind create cluster --config configs/cluster.yaml --name windycity-devfest-demo
 
-kill:
+kill-cluster:
 	kind delete cluster --name windycity-devfest-demo
 
 kubeconfig.yaml:

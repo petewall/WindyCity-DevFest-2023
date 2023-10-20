@@ -4,7 +4,7 @@ datasources:
     datasources:
       - name: Prometheus
         type: prometheus
-        url: 	http://prometheus-server.prometheus.svc:80
+        url: 	http://prometheus-server.monitoring.svc:80
         isDefault: true
         basicAuth: true
         basicAuthUser: promuser
@@ -13,7 +13,7 @@ datasources:
 
       - name: Loki
         type: loki
-        url: 	http://loki-gateway.loki.svc:80
+        url: 	http://loki-gateway.monitoring.svc:80
         basicAuth: true
         basicAuthUser: loki
         jsonData:

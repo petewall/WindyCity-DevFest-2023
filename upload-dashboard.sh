@@ -2,7 +2,7 @@
 
 set -eo pipefail
 
-ADMIN_PASSWORD=$(kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 --decode)
+ADMIN_PASSWORD=$(kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode)
 
 folders=$(curl -u "admin:${ADMIN_PASSWORD}" localhost:3000/api/folders)
 folderId=$(echo "${folders}" | jq -r '.[] | select(.title=="k8s") | .id')
