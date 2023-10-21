@@ -15,11 +15,28 @@ externalServices:
     basicAuth:
       username: loki
       password: lokipassword
+  tempo:
+    host: tempo.monitoring.svc:4317
 
 opencost:
   prometheus:
     external:
       url: http://prometheus-server.monitoring.svc:80/api/v1
+
+traces:
+  enabled: true
+
+grafana-agent:
+  agent:
+    extraPorts:
+      - name: "otlp-grpc"
+        port: 4317
+        targetPort: 4317
+        protocol: "TCP"
+      - name: "otlp-http"
+        port: 4318
+        targetPort: 4318
+        protocol: "TCP"
 
 extraConfig: |
   discovery.relabel "apiserver" {

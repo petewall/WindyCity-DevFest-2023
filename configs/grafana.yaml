@@ -21,3 +21,7 @@ datasources:
         secureJsonData:
           basicAuthPassword: lokipassword
           httpHeaderValue1: "1"
+
+      - name: Tempo
+        type: tempo
+        url: 	http://tempo.monitoring.svc:3100
