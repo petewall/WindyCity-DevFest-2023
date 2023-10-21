@@ -7,5 +7,5 @@ helm upgrade --install --wait loki grafana/loki -f configs/loki.yaml -n monitori
 helm upgrade --install --wait tempo grafana/tempo -f configs/tempo.yaml -n monitoring
 helm upgrade --install --wait grafana grafana/grafana -f configs/grafana.yaml -n monitoring
 helm upgrade --install --wait kubernetes-monitoring grafana/k8s-monitoring -f configs/kubernetes-monitoring.yaml -n monitoring
-kubectl apply -f application.yaml
+kubectl apply -f deployments/application.yaml
 ./upload-dashboard.sh dashboards/*.json

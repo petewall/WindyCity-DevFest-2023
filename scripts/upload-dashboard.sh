@@ -2,6 +2,8 @@
 
 set -eo pipefail
 
+kubectl port-forward -n monitoring service/grafana 3000:service &
+
 ADMIN_PASSWORD=$(kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode)
 
 folders=$(curl -u "admin:${ADMIN_PASSWORD}" localhost:3000/api/folders)
