@@ -178,7 +178,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: engine-x
+        image: nginx
         resources:
           requests:
             memory: "16Mi"
