@@ -25,3 +25,43 @@ datasources:
       - name: Tempo
         type: tempo
         url: 	http://tempo.monitoring.svc:3100
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/default
+
+dashboards:
+  default:
+    apiserver:
+      url: https://raw.githubusercontent.com/petewall/WindyCity-DevFest-2023/main/dashboards/apiserver.json
+    efficiency:
+      url: https://raw.githubusercontent.com/petewall/WindyCity-DevFest-2023/main/dashboards/efficiency.json
+    k8s-homepage:
+      url: https://raw.githubusercontent.com/petewall/WindyCity-DevFest-2023/main/dashboards/k8s-homepage.json
+    k8s-resources-cluster:
+      url: https://raw.githubusercontent.com/petewall/WindyCity-DevFest-2023/main/dashboards/k8s-resources-cluster.json
+    k8s-resources-multicluster:
+      url: https://raw.githubusercontent.com/petewall/WindyCity-DevFest-2023/main/dashboards/k8s-resources-multicluster.json
+    k8s-resources-namespace:
+      url: https://raw.githubusercontent.com/petewall/WindyCity-DevFest-2023/main/dashboards/k8s-resources-namespace.json
+    k8s-resources-node:
+      url: https://raw.githubusercontent.com/petewall/WindyCity-DevFest-2023/main/dashboards/k8s-resources-node.json
+    k8s-resources-pod:
+      url: https://raw.githubusercontent.com/petewall/WindyCity-DevFest-2023/main/dashboards/k8s-resources-pod.json
+    k8s-resources-workload:
+      url: https://raw.githubusercontent.com/petewall/WindyCity-DevFest-2023/main/dashboards/k8s-resources-workload.json
+    k8s-resources-workloads-namespace:
+      url: https://raw.githubusercontent.com/petewall/WindyCity-DevFest-2023/main/dashboards/k8s-resources-workloads-namespace.json
+    kubelet:
+      url: https://raw.githubusercontent.com/petewall/WindyCity-DevFest-2023/main/dashboards/kubelet.json
+    persistentvolumesusage:
+      url: https://raw.githubusercontent.com/petewall/WindyCity-DevFest-2023/main/dashboards/persistentvolumesusage.json

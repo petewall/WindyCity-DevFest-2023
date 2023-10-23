@@ -17,11 +17,18 @@ externalServices:
       password: lokipassword
   tempo:
     host: tempo.monitoring.svc:4317
+    tlsOptions: |-
+      insecure             = true
+      insecure_skip_verify = true
 
 opencost:
   prometheus:
     external:
       url: http://prometheus-server.monitoring.svc:80/api/v1
+
+metrics:
+  apiserver:
+    enabled: true
 
 traces:
   enabled: true
@@ -37,37 +44,3 @@ grafana-agent:
         port: 4318
         targetPort: 4318
         protocol: "TCP"
-
-extraConfig: |
-  discovery.relabel "apiserver" {
-    targets = discovery.kubernetes.services.targets
-    rule {
-      source_labels = ["__meta_kubernetes_namespace"]
-      regex = "default"
-      action = "keep"
-    }
-    rule {
-      source_labels = ["__meta_kubernetes_service_name"]
-      regex = "kubernetes"
-      action = "keep"
-    }
-    rule {
-      source_labels = ["__meta_kubernetes_service_port_name"]
-      regex = "https"
-      action = "keep"
-    }
-  }
-
-  prometheus.scrape "apiserver" {
-    job_name   = "integrations/kubernetes/apiserver"
-    targets    = discovery.relabel.apiserver.output
-    scheme     = "https"
-    bearer_token_file = "/var/run/secrets/kubernetes.io/serviceaccount/token"
-    tls_config {
-      insecure_skip_verify = true
-    }
-    clustering {
-      enabled = true
-    }
-    forward_to = [prometheus.remote_write.grafana_cloud_prometheus.receiver]
-  }

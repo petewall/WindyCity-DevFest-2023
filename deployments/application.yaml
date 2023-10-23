@@ -22,15 +22,25 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: nginx
-        image: nginx
+      - name: frontend
+        image: petewall/test-workload
+        ports:
+        - name: http
+          containerPort: 3000
+        volumeMounts:
+        - name: config
+          mountPath: /config
         resources:
           requests:
-            memory: "16Mi"
-            cpu: "100m"
+            memory: "200Mi"
+            cpu: "250m"
           limits:
-            memory: "32Mi"
-            cpu: "200m"
+            memory: "320Mi"
+            cpu: "500m"
+      volumes:
+      - name: config
+        configMap:
+          name: frontend
 ---
 apiVersion: v1
 kind: Service
@@ -66,15 +76,39 @@ spec:
         app: app-store
     spec:
       containers:
-      - name: nginx
-        image: nginx
+      - name: frontend
+        image: petewall/test-workload
+        ports:
+        - name: http
+          containerPort: 3000
+        volumeMounts:
+        - name: config
+          mountPath: /config
         resources:
           requests:
-            memory: "16Mi"
-            cpu: "100m"
+            memory: "200Mi"
+            cpu: "250m"
           limits:
-            memory: "32Mi"
-            cpu: "200m"
+            memory: "320Mi"
+            cpu: "500m"
+      volumes:
+      - name: config
+        configMap:
+          name: frontend
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend
+  namespace: prod
+data:
+  config.yaml: |
+    errorRate: 10
+    cpu:
+      minPrimesCalculated: 10000000
+      maxPrimesCalculated: 11000000
+    memory:
+      usage: 300000
 ---
 apiVersion: v1
 kind: Namespace
@@ -152,3 +186,17 @@ spec:
           limits:
             memory: "32Mi"
             cpu: "200m"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend
+  namespace: staging
+data:
+  config.yaml: |
+    errorRate: 10
+    cpu:
+      minPrimesCalculated: 10000000
+      maxPrimesCalculated: 11000000
+    memory:
+      usage: 300000

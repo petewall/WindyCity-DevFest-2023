@@ -3,16 +3,23 @@ server:
     - enable-feature=remote-write-receiver
     - web.config.file=/etc/config/web.yml
 
-  persistentVolume:
-    enabled: false
-
   probeHeaders:
   - name: "Authorization"
     value: "Basic cHJvbXVzZXI6cHJvbWV0aGV1c3Bhc3N3b3Jk"
 
+configmapReload:
+  prometheus:
+    enabled: false
+
 serverFiles:
   prometheus.yml:
     scrape_configs: []
+    remote_write:
+    - url: "https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push"
+      basic_auth:
+        username: "1019005"
+        password: glc_eyJvIjoiNzc1NzA0IiwibiI6Im90ZWwtY29sbGVjdG9yLXRva2VuIiwiayI6IkdENDY0SThjQTJ3QjdJMlNVN3Q5UXZkNyIsIm0iOnsiciI6InByb2QtdXMtZWFzdC0wIn19
+
   web.yml:
     basic_auth_users:
       promuser: $2a$12$1UJsAG4QnhjjDzqcSVkZmeDxxjgIFOAmzfuVTybTuhhDnYgfuAbAq  # "prometheuspassword"

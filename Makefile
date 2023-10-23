@@ -6,3 +6,4 @@ kill-cluster:
 
 kubeconfig.yaml:
 	kind get kubeconfig --name windycity-devfest-demo > kubeconfig.yaml
+	chmod 600 kubeconfig.yaml
