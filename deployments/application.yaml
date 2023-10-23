@@ -108,7 +108,7 @@ data:
       minPrimesCalculated: 10000000
       maxPrimesCalculated: 11000000
     memory:
-      usage: 300000
+      usage: 150000
 ---
 apiVersion: v1
 kind: Namespace
@@ -199,4 +199,4 @@ data:
       minPrimesCalculated: 10000000
       maxPrimesCalculated: 11000000
     memory:
-      usage: 300000
+      usage: 150000

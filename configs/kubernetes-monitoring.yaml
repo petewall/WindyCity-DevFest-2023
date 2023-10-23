@@ -22,13 +22,13 @@ externalServices:
       insecure_skip_verify = true
 
 opencost:
-  prometheus:
-    external:
-      url: http://prometheus-server.monitoring.svc:80/api/v1
+  enabled: false
 
 metrics:
   apiserver:
     enabled: true
+  cost:
+    enabled: false
 
 traces:
   enabled: true
