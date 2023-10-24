@@ -1,6 +1,10 @@
+# This is the values file that determines how we are configuring Kubernetes Monitoring.
+
+# Set the cluster name, this is added as a label to all telemetry data
 cluster:
   name: windycity_devfest_demo
 
+# Define the external services to send data to
 externalServices:
   prometheus:
     host: http://prometheus-server.monitoring.svc:80
@@ -21,18 +25,23 @@ externalServices:
       insecure             = true
       insecure_skip_verify = true
 
+# We don't care about cost for a kind cluster, disable
 opencost:
   enabled: false
 
+# Enable apiserver metrics, but disable cost metrics
 metrics:
   apiserver:
     enabled: true
   cost:
     enabled: false
 
+# Enable the ability to ingest traces and send them to Tempo
 traces:
   enabled: true
 
+# Tell the Gafana Agent to open up these ports, which are used when traces are
+# sent to the agent.
 grafana-agent:
   agent:
     extraPorts:

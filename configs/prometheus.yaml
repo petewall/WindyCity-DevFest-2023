@@ -1,28 +1,58 @@
+# This is the values file that determines how we are configuring Prometheus.
+
 server:
   extraFlags:
+    # This enables the Remote Write Receiver, which is needed for Grafana Agent
+    # to send metrics directly to this Prometheus server
     - enable-feature=remote-write-receiver
+
+    # This enables the Remote Write Receiver, which is needed for Grafana Agent
+    # to send metrics directly to this Prometheus server
     - web.config.file=/etc/config/web.yml
 
+  # Need to set this to have the probe know how to talk to this Prometheus server
   probeHeaders:
   - name: "Authorization"
     value: "Basic cHJvbXVzZXI6cHJvbWV0aGV1c3Bhc3N3b3Jk"
 
+# With Basic Auth, the configmap reload sidecar was failing. Rather than fix
+# it, I decided to disable it.
 configmapReload:
   prometheus:
     enabled: false
 
+# We don't need this, disabled
+alertmanager:
+  enabled: false
+
+# The Kubernetes Monitoring Helm chart will deploy Kube State Metrics, so we
+# don't need this
+kube-state-metrics:
+  enabled: false
+
+# The Kubernetes Monitoring Helm chart will deploy Node Exporter, so we don't
+# need this
+prometheus-node-exporter:
+  enabled: false
+
+# We don't need this, disabled
+prometheus-pushgateway:
+  enabled: false
+
 serverFiles:
+  # This *disabled* the default scrape configs. Otherwise, Prometheus would go
+  # out and try and scrape its own set of metrics.
   prometheus.yml:
     scrape_configs: []
-    remote_write:
-    - url: "https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push"
-      basic_auth:
-        username: "1019005"
-        password: glc_eyJvIjoiNzc1NzA0IiwibiI6Im90ZWwtY29sbGVjdG9yLXRva2VuIiwiayI6IkdENDY0SThjQTJ3QjdJMlNVN3Q5UXZkNyIsIm0iOnsiciI6InByb2QtdXMtZWFzdC0wIn19
 
+  # This enables Basic Authentication, meaning setting a username and password
+  # in order to use this service
   web.yml:
     basic_auth_users:
       promuser: $2a$12$1UJsAG4QnhjjDzqcSVkZmeDxxjgIFOAmzfuVTybTuhhDnYgfuAbAq  # "prometheuspassword"
+
+  # This defines a set of recording rules. I didn't go into rules, but it makes
+  # some of the dashboards work.
   recording_rules.yml:
     groups:
     - name: k8s.rules
@@ -328,17 +358,3 @@ serverFiles:
       - "expr": |
           sum by (cluster, code, verb) (increase(apiserver_request_total{job="integrations/kubernetes/apiserver",verb=~"LIST|GET|POST|PUT|PATCH|DELETE",code=~"5.."}[1h]))
         "record": "code_verb:apiserver_request_total:increase1h"
-
-
-
-alertmanager:
-  enabled: false
-
-kube-state-metrics:
-  enabled: false
-
-prometheus-node-exporter:
-  enabled: false
-
-prometheus-pushgateway:
-  enabled: false

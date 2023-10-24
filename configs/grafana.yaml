@@ -1,3 +1,6 @@
+# This is the values file that determines how we are configuring Grafana.
+
+# This section pre-defines the Prometheus, Loki, and Tempo data sources
 datasources:
   datasources.yaml:
     apiVersion: 1
@@ -26,6 +29,7 @@ datasources:
         type: tempo
         url: 	http://tempo.monitoring.svc:3100
 
+# This defines the default dashboard provider
 dashboardProviders:
   dashboardproviders.yaml:
     apiVersion: 1
@@ -39,6 +43,7 @@ dashboardProviders:
       options:
         path: /var/lib/grafana/dashboards/default
 
+# This section tells Grafana to pre-load all of these dashboards.
 dashboards:
   default:
     apiserver:

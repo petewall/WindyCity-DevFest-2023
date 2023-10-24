@@ -1,19 +1,31 @@
+# This is the values file that determines how we are configuring Grafana Loki.
+
 loki:
+  # This says we don't care about replication
   commonConfig:
     replication_factor: 1
+  # Store the data in the FS, nothing to complicated
   storage:
     type: 'filesystem'
+
+# This says we just want a single node
 singleBinary:
   replicas: 1
 
+# This sets the username and password for this Loki server
 gateway:
   basicAuth:
     enabled: true
     username: loki
     password: lokipassword
 
+# Don't bother with testing
 test:
   enabled: false
+
+# Turn off all of this monitoring and testing work. Some of that work is
+# duplicated by the Kubernetes Monitoring Helm chart, and some of it, I just
+# don't care about.
 monitoring:
   lokiCanary:
     enabled: false
