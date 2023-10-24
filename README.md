@@ -1,8 +1,14 @@
 # WindyCity DevFest 2023
 
-This is the source repo for my demo for [WindyCity DevFest 2023](https://windycity.devfest.io/).
+Thank you for your interest in my talk at [WindyCity DevFest 2023](https://windycity.devfest.io/)!
 
-## Setting up the environment:
+This repo has the source for the demo that I gave.
+
+## Slides
+
+The link to the slides will be uploaded in the future!
+
+## Setting up the environment
 
 ### Set up cluser
 make create-cluster
