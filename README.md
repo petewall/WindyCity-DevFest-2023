@@ -12,7 +12,7 @@ The link to the slides will be uploaded in the future!
 
 ### Set up cluser
 make create-cluster
-make kubeconfig.yaml
+rm kubeconfig.yaml; make kubeconfig.yaml
 
 ### Deploy applications
 kubectl apply -f deployments
@@ -23,7 +23,7 @@ helm install loki grafana/loki -f configs/loki.yaml -n monitoring
 helm install tempo grafana/tempo -n monitoring
 
 ### Deploy Kubernetes Monitoring
-helm install kubernetes-monitoring grafana/k8s-monitoring -f configs/kubernetes-monitoring.yaml -n monitoring --wait
+helm install kubernetes-monitoring grafana/k8s-monitoring --version 0.2.12 -f configs/kubernetes-monitoring.yaml -n monitoring --wait
 
 ### Deploy Grafana
 helm install grafana grafana/grafana -f configs/grafana.yaml -n monitoring --wait
